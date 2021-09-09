@@ -13,7 +13,7 @@ andrey.kan@adelaide.edu.au
 #include <vector>
 
 // std is a namespace: https://www.cplusplus.com/doc/oldtutorial/namespaces/
-const int TIME_ALLOWANCE = 8;  // allow to use up to this number of time slots at once
+const int TIME_ALLOWANCE = 4;  // allow to use up to this number of time slots at once
 const int PRINT_LOG = 0; // print detailed execution trace
 
 class Customer
@@ -130,6 +130,7 @@ int main(int argc, char *argv[])
     bool all_done = false;
     for (int current_time = 0; !all_done; current_time++)
     {
+         std::cout << "CURRENT TIME: " << current_time << std::endl;
         // welcome newly arrived customers
         while (!arrival_events.empty() && (current_time == arrival_events[0].event_time))
         {
@@ -158,13 +159,19 @@ int main(int argc, char *argv[])
             {
                 current_id = queue.front();
                 queue.pop_front();
+                std::cout << "current_id: " <<current_id << std::endl;
+                std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
                 if (TIME_ALLOWANCE > customers[current_id].slots_remaining)
                 {
                     time_out = current_time + customers[current_id].slots_remaining;
+                    std::cout << "inside IF: time_out: " << time_out << std::endl;
+
                 }
                 else
                 {
                     time_out = current_time + TIME_ALLOWANCE;
+                    std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
+
                 }
                 customers[current_id].playing_since = current_time;
             }
@@ -173,6 +180,8 @@ int main(int argc, char *argv[])
 
         // exit loop when there are no new arrivals, no waiting and no playing customers
         all_done = (arrival_events.empty() && queue.empty() && (current_id == -1));
+        std::cout << "END OF " << current_time << std::endl;
+
     }
 
     return 0;
