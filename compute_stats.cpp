@@ -212,14 +212,8 @@ bool Stats::compute_scheduling_stats(std::ifstream& results_file, std::vector<Cu
 
 void Stats::print()
 {
-    std::cout << "total_wait_0 total_wait_1 total_wait ";
-    std::cout << "longest_response ";
-    std::cout << "n_switches " << std::endl;
-    std::cout << total_wait_0 << " ";
-    std::cout << total_wait_1 << " ";
-    std::cout << total_wait << " ";
-    std::cout << longest_response << " ";
-    std::cout << n_switches << std::endl;
+    std::cout << "total_wait_0,total_wait_1,total_wait,longest_response,n_switches \n";
+    std::cout << total_wait_0<<","<<total_wait_1<<","<<total_wait<<","<<longest_response<<","<<n_switches;
 }
 
 // process command line arguments
