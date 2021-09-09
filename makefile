@@ -10,3 +10,13 @@ all_test1: baseline.cpp compute_stats
 	./baseline data_1111.txt test1_output.txt
 	g++ compute_stats.cpp -o compute_stats
 	./compute_stats data_1111.txt test1_output.txt > stats1.csv
+all: baseline.cpp compute_stats
+	g++ baseline.cpp -o baseline
+	g++ compute_stats.cpp -o compute_stats
+	./baseline data_1111.txt test1_output.txt
+	./compute_stats data_1111.txt test1_output.txt > stats1.csv
+	./baseline data_2222.txt test2_output.txt
+	./compute_stats data_2222.txt test2_output.txt > stats2.csv
+	./baseline data_3333.txt test3_output.txt
+	./compute_stats data_3333.txt test3_output.txt > stats3.csv
+
