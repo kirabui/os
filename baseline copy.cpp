@@ -79,20 +79,20 @@ void print_state(
     const std::deque<Event> &arrival_events,
     const std::deque<int> &customer_queue)
 {
-    out_file << current_time << " " << current_id << '\n';
+    out_file << current_time << " hi there " << current_id << '\n';
     if (PRINT_LOG == 0)
     {
         return;
     }
-    std::cout << current_time << ", " << current_id << '\n';
+    std::cout << current_time << ", holla " << current_id << '\n';
     for (int i = 0; i < arrival_events.size(); i++)
     {
-        std::cout << "\t" << arrival_events[i].event_time << ", " << arrival_events[i].customer_id << ", ";
+        std::cout << "\t" << arrival_events[i].event_time << ", ??" << arrival_events[i].customer_id << ", ";
     }
     std::cout << '\n';
     for (int i = 0; i < customer_queue.size(); i++)
     {
-        std::cout << "\t" << customer_queue[i] << ", ";
+        std::cout << "\t" << customer_queue[i] << ", yooo";
     }
     std::cout << '\n';
 }
@@ -124,7 +124,6 @@ int main(int argc, char *argv[])
 
     int current_id = -1; // who is using the machine now, -1 means nobody
     int time_out = -1; // time when current customer will be preempted
-    std::deque<int> queue;
     std::deque<int> queue_0; // waiting queue
     std::deque<int> queue_1; // waiting queue
 
@@ -137,15 +136,11 @@ int main(int argc, char *argv[])
         // welcome newly arrived customers
         while (!arrival_events.empty() && (current_time == arrival_events[0].event_time))
         {
-            /* MOD Put customer into the right queue */
-            int customer_type = customers[arrival_events[0].customer_id].priority;
-            //std::cout << "customer_type "<< customer_type;
-            if (customer_type == 0) {
-                queue_0.push_back(arrival_events[0].customer_id);
-            } else {
-                queue_1.push_back(arrival_events[0].customer_id);
-            }
-            ///////////////////
+            /* Put customer into the right queue */
+            
+
+            
+            
             queue.push_back(arrival_events[0].customer_id);
             arrival_events.pop_front();
         }
@@ -159,17 +154,6 @@ int main(int argc, char *argv[])
                 if (customers[current_id].slots_remaining > 0)
                 {
                     // customer is not done yet, waiting for the next chance to play
-
-                    //MOD Push customer back to their queue
-                    int customer_type = customers[current_id].priority;
-                    //std::cout << "customer_type "<< customer_type;
-                    if (customer_type == 0) {
-                        queue_0.push_back(current_id);
-                    } else {
-                        queue_1.push_back(current_id);
-                    }
-                    ////////////
-
                     queue.push_back(current_id);
                 }
                 current_id = -1; // the machine is free now
@@ -177,8 +161,7 @@ int main(int argc, char *argv[])
         }
         // if machine is empty, schedule a new customer
         if (current_id == -1)
-        {   
-            /*
+        {
             if (!queue.empty()) // is anyone waiting?
             {
                 current_id = queue.front();
@@ -199,52 +182,11 @@ int main(int argc, char *argv[])
                 }
                 customers[current_id].playing_since = current_time;
             }
-            */
-            if (!queue_0.empty()) // is anyone waiting?
-            {
-                current_id = queue_0.front();
-                queue_0.pop_front();
-                std::cout << "PRIORITY QUEUE_0" << std::endl;
-                std::cout << "current_id: " <<current_id << std::endl;
-                std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
-                if (TIME_ALLOWANCE > customers[current_id].slots_remaining)
-                {
-                    time_out = current_time + customers[current_id].slots_remaining;
-                    std::cout << "inside IF: time_out: " << time_out << std::endl;
-
-                }
-                else
-                {
-                    time_out = current_time + TIME_ALLOWANCE;
-                    std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
-
-                }
-                customers[current_id].playing_since = current_time;
-            } else if (!queue_1.empty()) {
-                current_id = queue_1.front();
-                queue_1.pop_front();
-                std::cout << "PRIORITY QUEUE_1" << std::endl;
-                std::cout << "current_id: " <<current_id << std::endl;
-                std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
-                if (TIME_ALLOWANCE > customers[current_id].slots_remaining)
-                {
-                    time_out = current_time + customers[current_id].slots_remaining;
-                    std::cout << "inside IF: time_out: " << time_out << std::endl;
-
-                }
-                else
-                {
-                    time_out = current_time + TIME_ALLOWANCE;
-                    std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
-
-                }
-                customers[current_id].playing_since = current_time;
-            }
         }
         print_state(out_file, current_time, current_id, arrival_events, queue);
 
         // exit loop when there are no new arrivals, no waiting and no playing customers
-        all_done = (arrival_events.empty() && queue_0.empty() && (current_id == -1) && queue_1.empty());
+        all_done = (arrival_events.empty() && queue.empty() && (current_id == -1));
         std::cout << "END OF " << current_time << std::endl;
 
     }
