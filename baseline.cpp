@@ -204,9 +204,11 @@ int main(int argc, char *argv[])
             {
                 current_id = queue_0.front();
                 queue_0.pop_front();
+                /*
                 std::cout << "PRIORITY QUEUE_0" << std::endl;
                 std::cout << "current_id: " <<current_id << std::endl;
                 std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
+                */
                 if (TIME_ALLOWANCE > customers[current_id].slots_remaining)
                 {
                     time_out = current_time + customers[current_id].slots_remaining;
