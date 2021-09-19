@@ -1,12 +1,6 @@
 total_wait_0,total_wait_1,total_wait,longest_response,n_switches 
-6128,19219,25347,699,181
+11270,11634,22904,594,109
 total_wait_0,total_wait_1,total_wait,longest_response,n_switches 
-5323,22676,27999,667,200
+7999,15190,23189,769,120
 total_wait_0,total_wait_1,total_wait,longest_response,n_switches 
-10482,28428,38910,958,223
-total_wait_0,total_wait_1,total_wait,longest_response,n_switches 
-6492,19208,25700,714,118
-total_wait_0,total_wait_1,total_wait,longest_response,n_switches 
-4977,22567,27544,706,134
-total_wait_0,total_wait_1,total_wait,longest_response,n_switches 
-10100,28314,38414,983,136
+15062,20233,35295,847,118

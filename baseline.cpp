@@ -14,6 +14,8 @@ andrey.kan@adelaide.edu.au
 
 // std is a namespace: https://www.cplusplus.com/doc/oldtutorial/namespaces/
 const int TIME_ALLOWANCE = 8;  // allow to use up to this number of time slots at once
+const int PRIORITY_TIME = 30;
+const int NON_PRI_TIME = 15;
 const int PRINT_LOG = 0; // print detailed execution trace
 
 class Customer
@@ -127,6 +129,7 @@ int main(int argc, char *argv[])
     std::deque<int> queue;
     std::deque<int> queue_0; // waiting queue
     std::deque<int> queue_1; // waiting queue
+    int turn = 0;
 
 
     // step by step simulation of each time slot
@@ -177,71 +180,104 @@ int main(int argc, char *argv[])
         }
         // if machine is empty, schedule a new customer
         if (current_id == -1)
-        {   
-            /*
-            if (!queue.empty()) // is anyone waiting?
+        {     std::cout << "TURN: "<<turn<<'\n';
+            // If turn is 0 or 1, RUN priority queue first
+            if (turn > 0 && turn < 5) {
+                 if (!queue_0.empty()) // is anyone waiting?
+                    {
+                        current_id = queue_0.front();
+                        queue_0.pop_front();
+                        /*
+                        std::cout << "PRIORITY QUEUE_0" << std::endl;
+                        std::cout << "current_id: " <<current_id << std::endl;
+                        std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
+                        */
+                        if (PRIORITY_TIME > customers[current_id].slots_remaining)
+                        {
+                            time_out = current_time + customers[current_id].slots_remaining;
+                            std::cout << "inside IF: time_out: " << time_out << std::endl;
+
+                        }
+                        else
+                        {
+                            time_out = current_time + PRIORITY_TIME ;
+                            std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
+
+                        }
+                        customers[current_id].playing_since = current_time;
+                    } else if (!queue_1.empty()) 
+                    {
+                        current_id = queue_1.front();
+                        queue_1.pop_front();
+                        std::cout << "PRIORITY QUEUE_1" << std::endl;
+                        std::cout << "current_id: " <<current_id << std::endl;
+                        std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
+                        if (NON_PRI_TIME > customers[current_id].slots_remaining)
+                        {
+                            time_out = current_time + customers[current_id].slots_remaining;
+                            std::cout << "inside IF: time_out: " << time_out << std::endl;
+
+                        }
+                        else
+                        {
+                            time_out = current_time + NON_PRI_TIME;
+                            std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
+
+                        }
+                        customers[current_id].playing_since = current_time;
+                    }
+            } else if (turn > 5)  //Run non-priority queue
             {
-                current_id = queue.front();
-                queue.pop_front();
-                std::cout << "current_id: " <<current_id << std::endl;
-                std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
-                if (TIME_ALLOWANCE > customers[current_id].slots_remaining)
-                {
-                    time_out = current_time + customers[current_id].slots_remaining;
-                    std::cout << "inside IF: time_out: " << time_out << std::endl;
+                if (!queue_1.empty()) 
+                    {
+                        current_id = queue_1.front();
+                        queue_1.pop_front();
+                        std::cout << "PRIORITY QUEUE_1" << std::endl;
+                        std::cout << "current_id: " <<current_id << std::endl;
+                        std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
+                        if (NON_PRI_TIME > customers[current_id].slots_remaining)
+                        {
+                            time_out = current_time + customers[current_id].slots_remaining;
+                            std::cout << "inside IF: time_out: " << time_out << std::endl;
 
-                }
-                else
-                {
-                    time_out = current_time + TIME_ALLOWANCE;
-                    std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
+                        }
+                        else
+                        {
+                            time_out = current_time + NON_PRI_TIME;
+                            std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
 
-                }
-                customers[current_id].playing_since = current_time;
+                        }
+                        customers[current_id].playing_since = current_time;
+                    } 
+                else if (!queue_0.empty()) 
+                    {
+                        current_id = queue_0.front();
+                        queue_0.pop_front();
+                        /*
+                        std::cout << "PRIORITY QUEUE_0" << std::endl;
+                        std::cout << "current_id: " <<current_id << std::endl;
+                        std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
+                        */
+                        if (PRIORITY_TIME > customers[current_id].slots_remaining)
+                        {
+                            time_out = current_time + customers[current_id].slots_remaining;
+                            std::cout << "inside IF: time_out: " << time_out << std::endl;
+
+                        }
+                        else
+                        {
+                            time_out = current_time + PRIORITY_TIME;
+                            std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
+
+                        }
+                        customers[current_id].playing_since = current_time;
+                    }
             }
-            */
-            if (!queue_0.empty()) // is anyone waiting?
-            {
-                current_id = queue_0.front();
-                queue_0.pop_front();
-                /*
-                std::cout << "PRIORITY QUEUE_0" << std::endl;
-                std::cout << "current_id: " <<current_id << std::endl;
-                std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
-                */
-                if (20 > customers[current_id].slots_remaining)
-                {
-                    time_out = current_time + customers[current_id].slots_remaining;
-                    std::cout << "inside IF: time_out: " << time_out << std::endl;
 
-                }
-                else
-                {
-                    time_out = current_time + 20;
-                    std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
-
-                }
-                customers[current_id].playing_since = current_time;
-            } else if (!queue_1.empty()) {
-                current_id = queue_1.front();
-                queue_1.pop_front();
-                std::cout << "PRIORITY QUEUE_1" << std::endl;
-                std::cout << "current_id: " <<current_id << std::endl;
-                std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
-                if (10 > customers[current_id].slots_remaining)
-                {
-                    time_out = current_time + customers[current_id].slots_remaining;
-                    std::cout << "inside IF: time_out: " << time_out << std::endl;
-
-                }
-                else
-                {
-                    time_out = current_time + 10;
-                    std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
-
-                }
-                customers[current_id].playing_since = current_time;
-            }
+            ////////////////////////////////////////          
+            turn = turn + 1;
+            turn = turn % 10;
+            std::cout << "why turn is not on " <<turn<<'\n';
         }
         print_state(out_file, current_time, current_id, arrival_events, queue);
 
