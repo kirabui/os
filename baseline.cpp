@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
                 std::cout << "current_id: " <<current_id << std::endl;
                 std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
                 */
-                if (TIME_ALLOWANCE > customers[current_id].slots_remaining)
+                if (20 > customers[current_id].slots_remaining)
                 {
                     time_out = current_time + customers[current_id].slots_remaining;
                     std::cout << "inside IF: time_out: " << time_out << std::endl;
@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
                 }
                 else
                 {
-                    time_out = current_time + TIME_ALLOWANCE;
+                    time_out = current_time + 20;
                     std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
 
                 }
@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
                 std::cout << "PRIORITY QUEUE_1" << std::endl;
                 std::cout << "current_id: " <<current_id << std::endl;
                 std::cout << "customers[current_id].slots_remaining: " << customers[current_id].slots_remaining << std::endl;
-                if (TIME_ALLOWANCE > customers[current_id].slots_remaining)
+                if (10 > customers[current_id].slots_remaining)
                 {
                     time_out = current_time + customers[current_id].slots_remaining;
                     std::cout << "inside IF: time_out: " << time_out << std::endl;
@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
                 }
                 else
                 {
-                    time_out = current_time + TIME_ALLOWANCE;
+                    time_out = current_time + 10;
                     std::cout << "else: time_out: " << time_out <<" (time_out= current_time + TIME_ALLOWANCE = "<< current_time << " + "<< TIME_ALLOWANCE<< std::endl;
 
                 }

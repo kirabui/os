@@ -21,4 +21,5 @@ all: baseline.cpp compute_stats
 	./compute_stats data_3333.txt test3_output.txt >> stats1.csv
 clear: stats1.csv test1_output.txt test2_output.txt test3_output.txt 
 	rm stats1.csv test1_output.txt test2_output.txt test3_output.txt 
-
+clear_test1: stats1.csv test1_output.txt 
+	sudo rm stats1.csv test1_output.txt 
